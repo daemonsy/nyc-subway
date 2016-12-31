@@ -1,0 +1,1 @@
+statusOfLine what is the status of the {subwayLineOrGroup} line

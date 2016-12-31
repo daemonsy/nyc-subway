@@ -1,0 +1,11 @@
+{
+  "intents" : [{
+    "intent": "statusOfLine",
+    "slots": [
+      {
+        "name": "subwayLineOrGroup",
+        "type": "SUBWAY_LINE_OR_GROUP"
+      }
+    ]
+  }]
+}

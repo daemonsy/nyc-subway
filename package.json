@@ -1,0 +1,15 @@
+{
+  "name": "subway",
+  "version": "0.0.1",
+  "description": "Alexa skill for NYC's subway status",
+  "main": "index.js",
+  "author": "Damon Aw <daemonsy@gmail.com>",
+  "scripts": {
+    "release": "zip -r subway.zip .",
+    "test:integration": "node ./tests/golden-path.js"
+  },
+  "dependencies": {
+    "alexa-sdk": "^1.0.6"
+  },
+  "license": "MIT"
+}
