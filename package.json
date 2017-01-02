@@ -9,7 +9,9 @@
     "test:integration": "node ./tests/golden-path.js"
   },
   "dependencies": {
-    "alexa-sdk": "^1.0.6"
+    "alexa-sdk": "^1.0.6",
+    "node-fetch": "^1.6.3",
+    "xml2js": "^0.4.17"
   },
   "license": "MIT"
 }
