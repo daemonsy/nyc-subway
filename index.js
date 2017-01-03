@@ -12,8 +12,8 @@ var statusToSpeech = require('./status-to-speech.js');
 
 var handlers = {
   statusOfLine: function () {
-    var context = this;
-    var lineGroup = context.event.request.intent.slots.subwayLineOrGroup.value;
+    var self = this;
+    var lineGroup = self.event.request.intent.slots.subwayLineOrGroup.value;
 
     fetch(mtaStatusURL).then(function(response) {
       return response.text()
@@ -21,12 +21,16 @@ var handlers = {
       currentMTAStatus(body, function(statuses) {
         var validStatus = statuses[lineGroup.toLowerCase()];
         if(validStatus) {
-          context.emit(':tell', statusToSpeech(lineGroup, validStatus.status));
+          self.emit(':tell', statusToSpeech(lineGroup, validStatus.status));
         } else {
-          context.emit(':tell', "I didn't hear a subway line I understand");
+          self.emit(':tell', "I didn't hear a subway line I understand");
         }
       });
     }).catch(function(error) { console.log(error) });
+  },
+
+  fullStatusUpdate: function() {
+
   },
 
   Unhandled: function() {

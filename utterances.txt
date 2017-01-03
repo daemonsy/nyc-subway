@@ -1,1 +1,5 @@
 statusOfLine what is the status of the {subwayLineOrGroup} line
+fullStatusUpdate are all lines working normally?
+fullStatusUpdate if all lines working normally?
+fullStatusUpdate for a service update
+fullStatusUpdate for a full service update
