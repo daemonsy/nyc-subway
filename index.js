@@ -1,24 +1,32 @@
+require('isomorphic-fetch');
+
+if(process.env.NODE_ENV !== 'production') {
+  var env = process.env.NODE_ENV || 'development';
+  require('dotenv').load({ path: '.env.' + env });
+}
+var mtaStatusURL = process.env.MTA_STATUS_URL;
+
 var Alexa = require('alexa-sdk');
 var currentMTAStatus = require('./current-mta-status.js');
-var fetch = require('node-fetch');
+var statusToSpeech = require('./status-to-speech.js');
 
 var handlers = {
   statusOfLine: function () {
     var context = this;
-    var lineGroup = this.event.request.intent.slots.subwayLineOrGroup.value;
+    var lineGroup = context.event.request.intent.slots.subwayLineOrGroup.value;
 
-    var mtaStatusXML = fetch('http://web.mta.info/status/serviceStatus.txt').then(function(response) {
+    fetch(mtaStatusURL).then(function(response) {
       return response.text()
     }).then(function(body) {
       currentMTAStatus(body, function(statuses) {
         var validStatus = statuses[lineGroup.toLowerCase()];
         if(validStatus) {
-          context.emit(':tell', 'The status of ' + lineGroup + ' is ' + validStatus.status);
+          context.emit(':tell', statusToSpeech(lineGroup, validStatus.status));
         } else {
           context.emit(':tell', "I didn't hear a subway line I understand");
         }
       });
-    });
+    }).catch(function(error) { console.log(error) });
   },
 
   Unhandled: function() {
@@ -26,9 +34,7 @@ var handlers = {
   }
 };
 
-exports.alexaHandlers = handlers;
-
-exports.handler = function(event, context, callback){
+exports.handler = function(event, context, callback, fetch){
   var alexa = Alexa.handler(event, context);
   alexa.registerHandlers(handlers);
   alexa.execute();

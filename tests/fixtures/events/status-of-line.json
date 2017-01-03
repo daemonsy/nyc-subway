@@ -1,6 +1,4 @@
-var handler = require('../index.js').handler;
-
-handler({
+{
   "session": {
     "sessionId": "SessionId.c717ad0b-19d6-44ea-ac7d-0c81a42f2b8c",
     "application": {
@@ -28,5 +26,4 @@ handler({
     }
   },
   "version": "1.0"
-});
-
+}
