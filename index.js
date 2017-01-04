@@ -28,13 +28,13 @@ var handlers = {
 
     fetchStatus(function(statuses) {
       var closestStatus;
-      if(nameGroup.length >1) {
+      if(nameGroup.length > 1) {
         closestStatus = _.minBy(statuses, function(status) {
-          return levenshtein.get(status.nameGroup, nameGroup.toLowerCase());
+          return levenshtein.get(status.nameGroup, nameGroup.toUpperCase());
         });
       } else {
         closestStatus = _.find(statuses, function(status) {
-          return status.nameGroup.search(nameGroup.toLowerCase()) !== -1;
+          return status.nameGroup.search(nameGroup.toUpperCase()) !== -1;
         });
       }
 
@@ -49,10 +49,10 @@ var handlers = {
   fullStatusUpdate: function() {
     var self = this;
     fetchStatus(function(statuses) {
-      var isGoodService = function(status) { status.status === 'Good Service' };
+      var isGoodService = function(status) { return status.status === 'GOOD SERVICE' };
 
       self.emit(':tell', _.chain(statuses)
-        .omit(isGoodService)
+        .omitBy(isGoodService)
         .map(function(status) {
           return `<s>${statusToSpeech(status.nameGroup, status.status)}</s>`;
         }).join('\n'));

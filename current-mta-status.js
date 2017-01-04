@@ -5,7 +5,7 @@ module.exports = function(mtaStatusXML, callback) {
     callback(
       results.service.subway[0].line.map(function(line) {
         return {
-          nameGroup: line.name[0].toLowerCase(),
+          nameGroup: line.name[0].toUpperCase(),
           status: line.status[0],
           updated: line["Date"][0] + " " + line["Time"],
           description: line.text[0]
