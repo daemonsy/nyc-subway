@@ -4,13 +4,13 @@ module.exports = function(line, status) {
   var speech = null;
   switch (normalizedStatus) {
     case 'good service':
-      speech = 'Good service on the ' + lineAsDigit + ' line, yay!';
+      speech = 'Good service on the ' + lineAsDigit + ' line';
       break;
     case 'delays':
-      speech = 'Oh no, the ' + lineAsDigit + ' line is experiencing delays';
+      speech = 'The ' + lineAsDigit + ' line is experiencing delays';
       break;
     case 'planned work':
-      speech = 'The ' + lineAsDigit + ' line is undergoing planned work, allow extra time traveling';
+      speech = 'The ' + lineAsDigit + ' line is undergoing planned work';
       break;
     case 'service change':
       speech = 'There is a service change on the ' + lineAsDigit + ' line currently';
