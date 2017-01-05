@@ -49,13 +49,19 @@ var handlers = {
   fullStatusUpdate: function() {
     var self = this;
     fetchStatus(function(statuses) {
-      var isGoodService = function(status) { return status.status === 'GOOD SERVICE' };
+      var notGoodService = function(status) { return status.status !== 'GOOD SERVICE' };
 
-      self.emit(':tell', _.chain(statuses)
-        .omitBy(isGoodService)
-        .map(function(status) {
-          return `<s>${statusToSpeech(status.nameGroup, status.status)}</s>`;
-        }).join('\n'));
+        var affectedServices = statuses
+          .filter(notGoodService)
+          .map(function(status) {
+            return `<s>${statusToSpeech(status.nameGroup, status.status)}</s>`;
+          });
+
+      if(affectedServices.length === 0) {
+        self.emit(':tell', 'Good service on all lines, what a rare day in NYC');
+      } else {
+        self.emit(':tell', affectedServices.join('\n'));
+      }
     });
   },
 

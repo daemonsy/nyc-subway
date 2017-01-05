@@ -3,6 +3,8 @@ import test from 'ava';
 import statusToSpeech  from '../status-to-speech.js';
 
 test('Given a service status, it builds the right speech"', t => {
+  t.plan(4);
+
   t.is(statusToSpeech('A', 'GOOD SERVICE'),
     'Good service on the <say-as interpret-as="digits">A</say-as> line'
   );
@@ -21,12 +23,16 @@ test('Given a service status, it builds the right speech"', t => {
 })
 
 test('Given an unknown service status, it builds a generic speech output', t => {
+  t.plan(1);
+
   t.is(statusToSpeech('F', 'MTA TROLLING US'),
     'The status of the <say-as interpret-as="digits">F</say-as> line is mta trolling us'
   );
 });
 
 test('Give a status with different casing, it builds the right speech output', t => {
+  t.plan(1);
+
   t.is(statusToSpeech('B', 'delays'),
     'The <say-as interpret-as="digits">B</say-as> line is experiencing delays'
   );
