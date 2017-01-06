@@ -2,8 +2,6 @@ statusOfLine about the {subwayLineOrGroup} line
 statusOfLine to check the {subwayLineOrGroup} line
 statusOfLine what is the status of {subwayLineOrGroup} line
 statusOfLine what is the status of {subwayLineOrGroup}
-fullStatusUpdate are all lines working normally
-fullStatusUpdate if all lines working normally
 fullStatusUpdate for a service update
 fullStatusUpdate for a full service update
 fullStatusUpdate for an update

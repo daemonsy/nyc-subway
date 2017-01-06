@@ -1,10 +1,11 @@
-require('isomorphic-fetch');
-
-
 if(process.env.NODE_ENV !== 'production') {
   var env = process.env.NODE_ENV || 'development';
   require('dotenv').load({ path: '.env.' + env });
 }
+
+require('isomorphic-fetch');
+
+var applicationId = process.env.APPLICATION_ID;
 var mtaStatusURL = process.env.MTA_STATUS_URL;
 
 var _ = require('lodash');
@@ -72,6 +73,7 @@ var handlers = {
 
 exports.handler = function(event, context, callback, fetch){
   var alexa = Alexa.handler(event, context);
+  alexa.appId = applicationId;
   alexa.registerHandlers(handlers);
   alexa.execute();
 };
