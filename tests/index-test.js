@@ -15,7 +15,7 @@ test('handling "ask subway status to check on the <subway-line> line?"', async t
   await LambdaTester(handler)
     .event(statusOfLineEvent)
     .expectSucceed(result => {
-      t.is(result.response.outputSpeech.ssml, '<speak> The <say-as interpret-as="digits">ACE</say-as> line is experiencing delays </speak>');
+      t.is(result.response.outputSpeech.ssml, '<speak> The <say-as interpret-as="spell-out">ACE</say-as> line is experiencing delays </speak>');
       fetchMock.restore();
     });
 })

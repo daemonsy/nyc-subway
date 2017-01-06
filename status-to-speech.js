@@ -1,6 +1,6 @@
 module.exports = function(line, status) {
   var normalizedStatus = status.toLowerCase();
-  var lineAsDigit = `<say-as interpret-as="digits">${line}</say-as>`;
+  var lineAsDigit = `<say-as interpret-as="spell-out">${line}</say-as>`;
   var speech = null;
   switch (normalizedStatus) {
     case 'good service':
