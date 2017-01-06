@@ -5,7 +5,7 @@
   "main": "index.js",
   "author": "Damon Aw <daemonsy@gmail.com>",
   "scripts": {
-    "release": "zip -r subway.zip .",
+    "release": "yarn --production && zip -r subway.zip .",
     "test": "NODE_ENV=test ava"
   },
   "ava": {
