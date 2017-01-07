@@ -1,9 +1,9 @@
+require('isomorphic-fetch');
+
 if(process.env.NODE_ENV !== 'production') {
   var env = process.env.NODE_ENV || 'development';
   require('dotenv').load({ path: '.env.' + env });
 }
-
-require('isomorphic-fetch');
 
 var applicationId = process.env.APPLICATION_ID;
 var mtaStatusURL = process.env.MTA_STATUS_URL;
@@ -22,53 +22,59 @@ var fetchStatus = function(callback) {
   });
 };
 
+var fullStatusUpdateHandler = function() {
+  var self = this;
+  fetchStatus(function(statuses) {
+    var notGoodService = function(status) { return status.status !== 'GOOD SERVICE' };
+
+    var affectedServices = statuses
+      .filter(notGoodService)
+      .map(function(status) {
+        return `<s>${statusToSpeech(status.nameGroup, status.status)}</s>`;
+      });
+
+    if(affectedServices.length === 0) {
+      self.emit(':tell', 'Good service on all lines, what a rare day in NYC');
+    } else {
+      self.emit(':tell', affectedServices.join('\n'));
+    }
+  });
+};
+
 var handlers = {
   statusOfLine: function () {
     var self = this;
     var nameGroup = self.event.request.intent.slots.subwayLineOrGroup.value;
+    var closestStatus = null;
+    var badQueryResponse = function() {
+      self.emit(':tell', "Sorry, I didn't hear a subway line I understand");
+    }
 
-    fetchStatus(function(statuses) {
-      var closestStatus;
-      if(nameGroup.length > 1) {
-        closestStatus = _.minBy(statuses, function(status) {
-          return levenshtein.get(status.nameGroup, nameGroup.toUpperCase());
-        });
-      } else {
-        closestStatus = _.find(statuses, function(status) {
-          return status.nameGroup.search(nameGroup.toUpperCase()) !== -1;
-        });
-      }
-
-      if(closestStatus) {
-        self.emit(':tell', statusToSpeech(closestStatus.nameGroup, closestStatus.status));
-      } else {
-        self.emit(':tell', "I didn't hear a subway line I understand");
-      }
-    });
-  },
-
-  fullStatusUpdate: function() {
-    var self = this;
-    fetchStatus(function(statuses) {
-      var notGoodService = function(status) { return status.status !== 'GOOD SERVICE' };
-
-        var affectedServices = statuses
-          .filter(notGoodService)
-          .map(function(status) {
-            return `<s>${statusToSpeech(status.nameGroup, status.status)}</s>`;
+    if(nameGroup) {
+      fetchStatus(function(statuses) {
+        if(nameGroup.length > 1) {
+          closestStatus = _.minBy(statuses, function(status) {
+            return levenshtein.get(status.nameGroup, nameGroup.toUpperCase());
           });
+        } else {
+          closestStatus = _.find(statuses, function(status) {
+            return status.nameGroup.search(nameGroup.toUpperCase()) !== -1;
+          });
+        }
 
-      if(affectedServices.length === 0) {
-        self.emit(':tell', 'Good service on all lines, what a rare day in NYC');
-      } else {
-        self.emit(':tell', affectedServices.join('\n'));
-      }
-    });
+        if(closestStatus) {
+          self.emit(':tell', statusToSpeech(closestStatus.nameGroup, closestStatus.status));
+        } else {
+          badQueryResponse();
+        }
+      });
+    } else {
+      badQueryResponse();
+    }
   },
 
-  Unhandled: function() {
-    this.emit(':tell', "Sorry I don't get your question");
-  }
+  fullStatusUpdate: fullStatusUpdateHandler,
+  Unhandled: fullStatusUpdateHandler
 };
 
 exports.handler = function(event, context, callback, fetch){

@@ -5,13 +5,15 @@
   "main": "index.js",
   "author": "Damon Aw <daemonsy@gmail.com>",
   "scripts": {
-    "release": "yarn --production && zip -r subway.zip .",
+    "release": "yarn --production && zip -r subway.zip . -x *.git*",
     "test": "NODE_ENV=test ava"
   },
   "ava": {
     "files": [
       "tests/*-test.js"
-    ]
+    ],
+    "timeout": "6000",
+    "verbose": true
   },
   "dependencies": {
     "alexa-sdk": "^1.0.6",
