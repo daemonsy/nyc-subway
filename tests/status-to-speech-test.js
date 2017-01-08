@@ -18,9 +18,29 @@ test('Given a service status, it builds the right speech"', t => {
   );
 
   t.is(statusToSpeech('1', 'SERVICE CHANGE'),
-    'There is a service change on the <say-as interpret-as="spell-out">1</say-as> line currently'
+    'The <say-as interpret-as="spell-out">1</say-as> line is undergoing service change'
   );
 })
+
+test('Given multiple service statuses, it builds gramatically correct speech output', t => {
+  t.plan(4);
+
+  t.is(statusToSpeech(['ACE', '456'], 'GOOD SERVICE'),
+    'Good service on the <say-as interpret-as="spell-out">ACE, 456</say-as> lines'
+  );
+
+  t.is(statusToSpeech(['NQR', 'BDFM'], 'DELAYS'),
+    'The <say-as interpret-as="spell-out">NQR, BDFM</say-as> lines are experiencing delays'
+  );
+
+  t.is(statusToSpeech(['123', '456'], 'PLANNED WORK'),
+    'The <say-as interpret-as="spell-out">123, 456</say-as> lines are undergoing planned work'
+  );
+
+  t.is(statusToSpeech(['7', 'ACE'], 'SERVICE CHANGE'),
+    'The <say-as interpret-as="spell-out">7, ACE</say-as> lines are undergoing service change'
+  );
+});
 
 test('Given an unknown service status, it builds a generic speech output', t => {
   t.plan(1);

@@ -1,22 +1,20 @@
-module.exports = function(line, status) {
+var pluralize = require('pluralize');
+
+module.exports = function(lines, status) {
   var normalizedStatus = status.toLowerCase();
-  var lineAsDigit = `<say-as interpret-as="spell-out">${line}</say-as>`;
-  var speech = null;
+  var lines = [].concat(lines);
+  var linesAsDigit = `<say-as interpret-as="spell-out">${lines.join(', ')}</say-as> ${pluralize('line', lines.length)}`;
+
   switch (normalizedStatus) {
     case 'good service':
-      speech = 'Good service on the ' + lineAsDigit + ' line';
-      break;
+      return `Good service on the ${linesAsDigit}`;
     case 'delays':
-      speech = 'The ' + lineAsDigit + ' line is experiencing delays';
-      break;
+      return `The ${linesAsDigit} ${pluralize('is', lines.length)} experiencing delays`;
     case 'planned work':
-      speech = 'The ' + lineAsDigit + ' line is undergoing planned work';
-      break;
+      return `The ${linesAsDigit} ${pluralize('is', lines.length)} undergoing planned work`;
     case 'service change':
-      speech = 'There is a service change on the ' + lineAsDigit + ' line currently';
-      break;
+      return `The ${linesAsDigit} ${pluralize('is', lines.length)} undergoing service change`;
     default:
-      speech = 'The status of the ' + lineAsDigit + ' line is ' + normalizedStatus;
+      return `The status of the ${linesAsDigit} ${pluralize('is', lines.length)} ${normalizedStatus}`;
   };
-  return speech;
 }
