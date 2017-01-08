@@ -37,7 +37,7 @@ var fullStatusUpdateHandler = function() {
     Object.keys(affectedServicesByStatus).forEach(function(key) {
       var lines = affectedServicesByStatus[key].map(function(status) {
         return status.nameGroup;
-      }).join("<break/>");
+      });
 
       affectedServiceStatuses.push(`<s>${statusToSpeech(lines, key)}</s>`);
     });
