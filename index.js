@@ -29,14 +29,23 @@ var fullStatusUpdateHandler = function() {
 
     var affectedServices = statuses
       .filter(notGoodService)
-      .map(function(status) {
-        return `<s>${statusToSpeech(status.nameGroup, status.status)}</s>`;
-      });
 
-    if(affectedServices.length === 0) {
+    var affectedServicesByStatus = _.groupBy(affectedServices, 'status');
+
+    var affectedServiceStatuses = [];
+
+    Object.keys(affectedServicesByStatus).forEach(function(key) {
+      var lines = affectedServicesByStatus[key].map(function(status) {
+        return status.nameGroup;
+      }).join("<break/>");
+
+      affectedServiceStatuses.push(`<s>${statusToSpeech(lines, key)}</s>`);
+    });
+
+    if(affectedServiceStatuses.length === 0) {
       self.emit(':tell', 'Good service on all lines, what a rare day in NYC');
     } else {
-      self.emit(':tell', affectedServices.join('\n'));
+      self.emit(':tell', affectedServiceStatuses.join('\n'));
     }
   });
 };
