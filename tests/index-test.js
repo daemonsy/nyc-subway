@@ -47,7 +47,7 @@ test.serial('handling "ask subway status for an update and there are bad service
     .expectSucceed(r => r);
 
   let speechMarkup = result.response.outputSpeech.ssml;
-  t.true(speechMarkup.search("123, BDFM, JZ, NQR") !== -1);
+  t.true(speechMarkup.search("123<break/>BDFM<break/>JZ<break/>NQR") !== -1);
   t.true(speechMarkup.search('ACE') !== -1);
   t.true(speechMarkup.search('<s>Good service on all other lines</s>') !== -1);
 

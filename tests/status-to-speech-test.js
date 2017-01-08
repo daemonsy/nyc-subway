@@ -26,19 +26,19 @@ test('Given multiple service statuses, it builds gramatically correct speech out
   t.plan(4);
 
   t.is(statusToSpeech(['ACE', '456'], 'GOOD SERVICE'),
-    'Good service on the <say-as interpret-as="spell-out">ACE, 456</say-as> lines'
+    'Good service on the <say-as interpret-as="spell-out">ACE<break/>456</say-as> lines'
   );
 
   t.is(statusToSpeech(['NQR', 'BDFM'], 'DELAYS'),
-    'The <say-as interpret-as="spell-out">NQR, BDFM</say-as> lines are experiencing delays'
+    'The <say-as interpret-as="spell-out">NQR<break/>BDFM</say-as> lines are experiencing delays'
   );
 
   t.is(statusToSpeech(['123', '456'], 'PLANNED WORK'),
-    'The <say-as interpret-as="spell-out">123, 456</say-as> lines are undergoing planned work'
+    'The <say-as interpret-as="spell-out">123<break/>456</say-as> lines are undergoing planned work'
   );
 
   t.is(statusToSpeech(['7', 'ACE'], 'SERVICE CHANGE'),
-    'The <say-as interpret-as="spell-out">7, ACE</say-as> lines are undergoing service change'
+    'The <say-as interpret-as="spell-out">7<break/>ACE</say-as> lines are undergoing service change'
   );
 });
 

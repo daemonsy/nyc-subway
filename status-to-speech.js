@@ -3,7 +3,7 @@ var pluralize = require('pluralize');
 module.exports = function(lines, status) {
   var normalizedStatus = status.toLowerCase();
   var lines = [].concat(lines);
-  var linesAsDigit = `<say-as interpret-as="spell-out">${lines.join(', ')}</say-as> ${pluralize('line', lines.length)}`;
+  var linesAsDigit = `<say-as interpret-as="spell-out">${lines.join('<break/>')}</say-as> ${pluralize('line', lines.length)}`;
 
   switch (normalizedStatus) {
     case 'good service':
