@@ -37,7 +37,7 @@ test.serial('handling "ask subway status to check on the <subway-line> line?" wi
 });
 
 test.serial('handling "ask subway status for an update and there are bad services"', async t => {
-  t.plan(2);
+  t.plan(3);
 
   const fullServiceUpdateEvent = JSON.parse(fs.readFileSync(process.cwd() + '/tests/fixtures/events/full-service-update.json'));
   fetchMock.once(process.env.MTA_STATUS_URL, fs.readFileSync(process.cwd() + '/tests/fixtures/mta-status.xml', 'utf-8'));
@@ -49,6 +49,7 @@ test.serial('handling "ask subway status for an update and there are bad service
   let speechMarkup = result.response.outputSpeech.ssml;
   t.true(speechMarkup.search("123<break/>BDFM<break/>JZ<break/>NQR") !== -1);
   t.true(speechMarkup.search('ACE') !== -1);
+  t.true(speechMarkup.search('<s>Good service on all other lines</s>') !== -1);
 
   fetchMock.restore();
 });

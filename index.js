@@ -45,6 +45,7 @@ var fullStatusUpdateHandler = function() {
     if(affectedServiceStatuses.length === 0) {
       self.emit(':tell', 'Good service on all lines, what a rare day in NYC');
     } else {
+      affectedServiceStatuses.push('<s>Good service on all other lines</s>');
       self.emit(':tell', affectedServiceStatuses.join('\n'));
     }
   });
