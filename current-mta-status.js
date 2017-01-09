@@ -2,7 +2,8 @@ var parseXML = require('xml2js').parseString;
 var serviceDetailsCleaner = require('./service-details-cleaner');
 
 module.exports = function(mtaStatusXML, callback) {
-  parseXML(mtaStatusXML, function(error, results) {
+  parseXML(mtaStatusXML, { normalize: true, trim: true }, function(error, results) {
+
     callback(
       results.service.subway[0].line.map(function(line) {
         return {
