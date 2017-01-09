@@ -74,7 +74,8 @@ var handlers = {
 
         if(closestStatus) {
           if(closestStatus.description) {
-            self.emit(':tellWithCard', statusToSpeech(closestStatus.nameGroup, closestStatus.status), `Subway Status for ${closestStatus.nameGroup}`, closestStatus.description);
+            var serviceStatus = `${statusToSpeech(closestStatus.nameGroup, closestStatus.status)}. I've added a card with the details on the Alexa App.`
+            self.emit(':tellWithCard', serviceStatus, `Subway Status for ${closestStatus.nameGroup}`, closestStatus.description);
           } else {
             self.emit(':tell', statusToSpeech(closestStatus.nameGroup, closestStatus.status));
           }

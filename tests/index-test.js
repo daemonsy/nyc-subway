@@ -17,7 +17,7 @@ test.serial('handling "ask subway status to check on the <subway-line> line?" an
     .expectSucceed(r => r);
 
 
-  t.is(result.response.outputSpeech.ssml, '<speak> The <say-as interpret-as="spell-out">ACE</say-as> line is experiencing delays </speak>');
+  t.is(result.response.outputSpeech.ssml, `<speak> The <say-as interpret-as="spell-out">ACE</say-as> line is experiencing delays. I've added a card with the details on the Alexa App. </speak>`);
   t.is(result.response.card.title, 'Subway Status for ACE');
   t.true(/Due to an earlier incident at 23 St/.test(result.response.card.content));
 
