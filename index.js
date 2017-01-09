@@ -73,7 +73,11 @@ var handlers = {
         }
 
         if(closestStatus) {
-          self.emit(':tell', statusToSpeech(closestStatus.nameGroup, closestStatus.status));
+          if(closestStatus.description) {
+            self.emit(':tellWithCard', statusToSpeech(closestStatus.nameGroup, closestStatus.status), `Subway Status for ${closestStatus.nameGroup}`, closestStatus.description);
+          } else {
+            self.emit(':tell', statusToSpeech(closestStatus.nameGroup, closestStatus.status));
+          }
         } else {
           badQueryResponse();
         }

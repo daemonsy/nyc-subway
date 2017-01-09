@@ -1,4 +1,5 @@
-var parseXML = require("xml2js").parseString
+var parseXML = require('xml2js').parseString;
+var serviceDetailsCleaner = require('./service-details-cleaner');
 
 module.exports = function(mtaStatusXML, callback) {
   parseXML(mtaStatusXML, function(error, results) {
@@ -8,7 +9,7 @@ module.exports = function(mtaStatusXML, callback) {
           nameGroup: line.name[0].toUpperCase(),
           status: line.status[0],
           updated: line["Date"][0] + " " + line["Time"],
-          description: line.text[0]
+          description: serviceDetailsCleaner(line.text[0])
         }
       })
     );
