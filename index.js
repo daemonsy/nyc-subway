@@ -1,7 +1,8 @@
 require('isomorphic-fetch');
 
-if(process.env.NODE_ENV !== 'production') {
-  var env = process.env.NODE_ENV || 'development';
+var env = process.env.NODE_ENV || 'development';
+
+if(env !== 'production') {
   require('dotenv').load({ path: '.env.' + env });
 }
 
@@ -93,6 +94,10 @@ var handlers = {
 };
 
 exports.handler = function(event, context, callback, fetch){
+  if(env === 'production') {
+    console.log(event.request); // Log to Cloudwatch
+  }
+
   var alexa = Alexa.handler(event, context);
   alexa.appId = applicationId;
   alexa.registerHandlers(handlers);
