@@ -31,5 +31,5 @@ deployment:
     branch: master
     commands:
       - yarn release
-      - aws lambda update-function-code --function-name $AWS_LAMBDA_PRODUCTION_ARN --zip-file subway.zip
-      - aws lambda publish-version --function-name mtaStatus  --description $CIRCLE_SHA1 || "" || $CIRCLE_COMPARE_URL
+      - aws lambda update-function-code --function-name $AWS_LAMBDA_PRODUCTION_ARN --zip-file fileb://subway.zip
+      - aws lambda publish-version --function-name $AWS_LAMBDA_PRODUCTION_ARN --description $CIRCLE_SHA1 || "" || $CIRCLE_COMPARE_URL
