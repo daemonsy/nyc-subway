@@ -4,6 +4,8 @@ machine:
   environment:
     YARN_VERSION: 0.18.1
     PATH: "${PATH}:${HOME}/.yarn/bin:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin"
+    AWS_DEFAULT_REGION: us-east-1
+    AWS_LAMBDA_PRODUCTION_ARN: arn:aws:lambda:us-east-1:750878068186:function:mtaStatus
 
 dependencies:
   pre:
@@ -23,3 +25,11 @@ dependencies:
 test:
   override:
     - yarn test
+
+deployment:
+  master:
+    branch: master
+    commands:
+      - yarn release
+      - aws lambda update-function-code --function-name $AWS_LAMBDA_PRODUCTION_ARN --zip-file subway.zip
+      - aws lambda publish-version --function-name mtaStatus  --description $CIRCLE_SHA1 || "" || $CIRCLE_COMPARE_URL
