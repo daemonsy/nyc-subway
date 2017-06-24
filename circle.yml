@@ -1,7 +1,8 @@
 machine:
   node:
-    version: 4.3.2 # To be the same version AWS Lambda uses
+    version: $NODE_RUNTIME_VERSION
   environment:
+    NODE_RUNTIME_VERSION: 6.10 # To be the same version AWS Lambda uses
     YARN_VERSION: 0.18.1
     PATH: "${PATH}:${HOME}/.yarn/bin:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin"
     AWS_DEFAULT_REGION: us-east-1
@@ -31,5 +32,5 @@ deployment:
     branch: master
     commands:
       - yarn release
-      - 'aws lambda update-function-code --function-name $AWS_LAMBDA_PRODUCTION_ARN --zip-file fileb://subway.zip'
+      - 'aws lambda update-function-code --function-name $AWS_LAMBDA_PRODUCTION_ARN --zip-file fileb://subway.zip --runtime nodejs${NODE_RUNTIME_VERSION}'
       - 'aws lambda publish-version --function-name $AWS_LAMBDA_PRODUCTION_ARN --description "SHA: $CIRCLE_SHA1 Github: $CIRCLE_COMPARE_URL Build Number: $CIRCLE_BUILD_NUM"'

@@ -1,5 +1,7 @@
 require('isomorphic-fetch');
 
+const uuidv4 = require("uuid/v4");
+
 var env = process.env.NODE_ENV || 'development';
 
 if(env !== 'production') {
@@ -23,31 +25,29 @@ var fetchStatus = function(callback) {
   });
 };
 
+const affectedServiceStatusesBuilder = (statuses) => {
+  let notGoodService = status => status.status !== 'GOOD SERVICE';
+
+  let affectedServices = statuses
+    .filter(notGoodService)
+
+  return _(affectedServices)
+    .groupBy('status')
+    .map((lines, status, collection) => {
+      lines = lines.map(status => status.nameGroup);
+      return statusToSpeech(lines, status);
+    }).value();
+};
+
 var fullStatusUpdateHandler = function() {
-  var self = this;
-  fetchStatus(function(statuses) {
-    var notGoodService = function(status) { return status.status !== 'GOOD SERVICE' };
-
-    var affectedServices = statuses
-      .filter(notGoodService)
-
-    var affectedServicesByStatus = _.groupBy(affectedServices, 'status');
-
-    var affectedServiceStatuses = [];
-
-    Object.keys(affectedServicesByStatus).forEach(function(key) {
-      var lines = affectedServicesByStatus[key].map(function(status) {
-        return status.nameGroup;
-      });
-
-      affectedServiceStatuses.push(`<s>${statusToSpeech(lines, key)}</s>`);
-    });
+  fetchStatus(statuses => {
+    let affectedServiceStatuses = affectedServiceStatusesBuilder(statuses);
 
     if(affectedServiceStatuses.length === 0) {
-      self.emit(':tell', 'Good service on all lines, what a rare day in NYC');
+      this.emit(':tell', 'Good service on all lines, what a rare day in NYC');
     } else {
-      affectedServiceStatuses.push('<s>Good service on all other lines</s>');
-      self.emit(':tell', affectedServiceStatuses.join('\n'));
+      affectedServiceStatuses.push('Good service on all other lines. ');
+      this.emit(':tell', affectedServiceStatuses.join('\n'));
     }
   });
 };
@@ -75,7 +75,7 @@ var handlers = {
 
         if(closestStatus) {
           if(closestStatus.description) {
-            var serviceStatus = `${statusToSpeech(closestStatus.nameGroup, closestStatus.status)}. I've added a card with the details on the Alexa App.`
+            var serviceStatus = `${statusToSpeech(closestStatus.nameGroup, closestStatus.status)}I've added a card with the details on the Alexa App.`
             self.emit(':tellWithCard', serviceStatus, `Subway Status for ${closestStatus.nameGroup}`, closestStatus.description);
           } else {
             self.emit(':tell', statusToSpeech(closestStatus.nameGroup, closestStatus.status));
@@ -93,7 +93,32 @@ var handlers = {
   Unhandled: fullStatusUpdateHandler
 };
 
-exports.handler = function(event, context, callback, fetch){
+exports.flashBriefingHandler = (event, context, callback) => {
+  fetchStatus(statuses => {
+    let affectedServiceStatuses = affectedServiceStatusesBuilder(statuses);
+    let message;
+
+    if(affectedServiceStatuses.length === 0) {
+      message = 'Good service on all lines, what a rare day in NYC';
+    } else {
+      affectedServiceStatuses.push('Good service on all other lines. ')
+      message = affectedServiceStatuses.join("");
+    }
+
+    callback(null, {
+      statusCode: 200,
+      body: JSON.stringify({
+        uid: uuidv4(),
+        titleText: "Current NYC Subway Status",
+        mainText: message,
+        redirectionUrl: "http://www.mta.info/mta-service-status-widget",
+        updateDate: new Date().toISOString()
+      })
+    });
+  });
+};
+
+exports.handler = function(event, context, callback){
   if(env === 'production') {
     console.log(event.request); // Log to Cloudwatch
   }

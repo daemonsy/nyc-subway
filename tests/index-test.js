@@ -4,7 +4,23 @@ import test from 'ava';
 import LambdaTester from 'lambda-tester';
 import fetchMock from 'fetch-mock';
 
-import { handler } from '../index.js';
+import { handler, flashBriefingHandler } from '../index.js';
+
+test.serial('flashBriefingHandler', async t => {
+  t.plan(3);
+
+  fetchMock.once(process.env.MTA_STATUS_URL, fs.readFileSync(process.cwd() + '/tests/fixtures/mta-status.xml', 'utf-8'));
+
+  const result = await LambdaTester(flashBriefingHandler)
+    .event({})
+    .expectResult(r => r);
+
+  let response = JSON.parse(result.body);
+
+  t.is(response.titleText, "Current NYC Subway Status");
+  t.true(!!response.mainText.match("The A-C-E line is experiencing delays. "));
+  t.true(!!response.mainText.match("Good service on all other lines. "));
+});
 
 test.serial('handling "ask subway status to check on the <subway-line> line?" and the service is not good', async t => {
   t.plan(3);
@@ -16,8 +32,7 @@ test.serial('handling "ask subway status to check on the <subway-line> line?" an
     .event(statusOfLineEvent)
     .expectSucceed(r => r);
 
-
-  t.is(result.response.outputSpeech.ssml, `<speak> The <say-as interpret-as="spell-out">ACE</say-as> line is experiencing delays. I've added a card with the details on the Alexa App. </speak>`);
+  t.is(result.response.outputSpeech.ssml, `<speak> The A-C-E line is experiencing delays. I've added a card with the details on the Alexa App. </speak>`);
   t.is(result.response.card.title, 'Subway Status for ACE');
   t.true(/Due to an earlier incident at 23 St/.test(result.response.card.content));
 
@@ -36,7 +51,7 @@ test.serial('handling "ask subway status to check on the <subway-line> line?" an
     .event(statusOfLineEvent)
     .expectSucceed(r => r);
 
-  t.is(result.response.outputSpeech.ssml, '<speak> Good service on the <say-as interpret-as="spell-out">456</say-as> line </speak>');
+  t.is(result.response.outputSpeech.ssml, '<speak> Good service on the 4-5-6 line.  </speak>');
   t.is(result.response.card, undefined);
 
   fetchMock.restore();
@@ -68,9 +83,9 @@ test.serial('handling "ask subway status for an update and there are bad service
     .expectSucceed(r => r);
 
   let speechMarkup = result.response.outputSpeech.ssml;
-  t.true(speechMarkup.search("123<break/>BDFM<break/>JZ<break/>NQR") !== -1);
-  t.true(speechMarkup.search('ACE') !== -1);
-  t.true(speechMarkup.search('<s>Good service on all other lines</s>') !== -1);
+  t.true(speechMarkup.search("1-2-3, B-D-F-M, J-Z, N-Q-R") !== -1);
+  t.true(speechMarkup.search('A-C-E') !== -1);
+  t.true(speechMarkup.search('Good service on all other lines. ') !== -1);
 
   fetchMock.restore();
 });
