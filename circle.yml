@@ -7,6 +7,7 @@ machine:
     PATH: "${PATH}:${HOME}/.yarn/bin:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin"
     AWS_DEFAULT_REGION: us-east-1
     AWS_LAMBDA_PRODUCTION_ARN: arn:aws:lambda:us-east-1:750878068186:function:mtaStatus
+    AWS_FB_LAMBDA_PRODUCTION_ARN: arn:aws:lambda:us-east-1:750878068186:function:mtaStatusFlashBriefing
 
 dependencies:
   pre:
@@ -35,3 +36,6 @@ deployment:
       - 'aws lambda update-function-code --function-name $AWS_LAMBDA_PRODUCTION_ARN --zip-file fileb://subway.zip'
       - 'aws lambda publish-version --function-name $AWS_LAMBDA_PRODUCTION_ARN --description "SHA: $CIRCLE_SHA1 Github: $CIRCLE_COMPARE_URL Build Number: $CIRCLE_BUILD_NUM"'
       - 'aws lambda update-function-configuration --function-name $AWS_LAMBDA_PRODUCTION_ARN --runtime "nodejs${NODE_RUNTIME_VERSION}"'
+      - 'aws lambda update-function-code --function-name $AWS_FB_LAMBDA_PRODUCTION_ARN --zip-file fileb://subway.zip'
+      - 'aws lambda publish-version --function-name $AWS_FB_LAMBDA_PRODUCTION_ARN --description "SHA: $CIRCLE_SHA1 Github: $CIRCLE_COMPARE_URL Build Number: $CIRCLE_BUILD_NUM"'
+      - 'aws lambda update-function-configuration --function-name $AWS_FB_LAMBDA_PRODUCTION_ARN --runtime "nodejs${NODE_RUNTIME_VERSION}"'
