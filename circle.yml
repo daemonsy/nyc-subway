@@ -30,7 +30,7 @@ test:
 
 deployment:
   master:
-    branch: master
+    branch: [master, development]
     commands:
       - yarn release
       - 'aws lambda update-function-code --function-name $AWS_LAMBDA_PRODUCTION_ARN --zip-file fileb://subway.zip'

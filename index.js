@@ -3,6 +3,7 @@ require('isomorphic-fetch');
 const uuidv4 = require("uuid/v4");
 
 var env = process.env.NODE_ENV || 'development';
+const logRequests = process.env.LOG_REQUESTS === 'true';
 
 if(env !== 'production') {
   require('dotenv').load({ path: '.env.' + env });
@@ -119,12 +120,17 @@ exports.flashBriefingHandler = (event, context, callback) => {
 };
 
 exports.handler = function(event, context, callback){
-  if(env === 'production') {
+  if(logRequests) {
     console.log(event.request); // Log to Cloudwatch
   }
 
   var alexa = Alexa.handler(event, context);
   alexa.appId = applicationId;
   alexa.registerHandlers(handlers);
+  if(!env === 'test') {
+    // A clutch while I figure out how to test Dynamo DB locally
+    alexa.dynamoDBTableName = `nyc-subway-${env}`;
+  }
+
   alexa.execute();
 };
