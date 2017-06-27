@@ -1,11 +1,19 @@
 machine:
   pre:
+    - mkdir -p ~/downloads
+    - mkdir -p ~/dynamodb_local
+    - wget -N https://s3-us-west-2.amazonaws.com/dynamodb-local/dynamodb_local_latest.tar.gz -P ~/downloads
+
+  post:
+    - tar -xvf /home/ubuntu/downloads/dynamodb_local_latest.tar.gz -C ~/dynamodb_local
+    - 'cd dynamodb_local;java -Djava.library.path=./DynamoDBLocal_lib -jar DynamoDBLocal.jar -sharedDb':
+        background: true
 
   node:
     version: $NODE_RUNTIME_VERSION
   environment:
     NODE_RUNTIME_VERSION: 6.10 # To be the same version AWS Lambda uses
-    YARN_VERSION: 0.18.1
+    YARN_VERSION: 0.24.6
     PATH: "${PATH}:${HOME}/.yarn/bin:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin"
     AWS_DEFAULT_REGION: us-east-1
     AWS_LAMBDA_PRODUCTION_ARN: arn:aws:lambda:us-east-1:750878068186:function:mtaStatus
@@ -22,11 +30,14 @@ dependencies:
       else
         echo "The correct version of Yarn is already installed."
       fi
+
   override:
     - yarn install
+
   cache_directories:
     - ~/.yarn
     - ~/.cache/yarn
+    - ~/downloads
 
 test:
   override:

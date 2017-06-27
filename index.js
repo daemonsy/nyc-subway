@@ -1,5 +1,6 @@
 require('isomorphic-fetch');
 
+const AWS = require("aws-sdk");
 const uuidv4 = require("uuid/v4");
 
 var env = process.env.NODE_ENV || 'development';
@@ -126,11 +127,17 @@ exports.handler = function(event, context, callback){
 
   var alexa = Alexa.handler(event, context);
   alexa.appId = applicationId;
-  alexa.registerHandlers(handlers);
-  if(!env === 'test') {
-    // A clutch while I figure out how to test Dynamo DB locally
-    alexa.dynamoDBTableName = `nyc-subway-${env}`;
+
+  if(env === 'test') {
+    alexa.dynamoDBClient = new AWS.DynamoDB({
+      apiVersion: '2012-08-10',
+      endpoint: "http://localhost:8000",
+      region: "us-east-1"
+    });
   }
 
+  alexa.dynamoDBTableName = `nyc-subway-${env}`;
+
+  alexa.registerHandlers(handlers);
   alexa.execute();
 };
