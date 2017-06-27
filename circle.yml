@@ -1,4 +1,6 @@
 machine:
+  pre:
+
   node:
     version: $NODE_RUNTIME_VERSION
   environment:
@@ -8,6 +10,8 @@ machine:
     AWS_DEFAULT_REGION: us-east-1
     AWS_LAMBDA_PRODUCTION_ARN: arn:aws:lambda:us-east-1:750878068186:function:mtaStatus
     AWS_FB_LAMBDA_PRODUCTION_ARN: arn:aws:lambda:us-east-1:750878068186:function:mtaStatusFlashBriefing
+    MTA_STATUS_URL: http://web.mta.info/status/serviceStatus.txt
+    TARGET_ENV: $(if [[ "$CIRCLE_BRANCH" == "development" ]]; then echo development; else echo production; fi)
 
 dependencies:
   pre:
@@ -30,23 +34,12 @@ test:
 
 deployment:
   master:
-    branch: master
+    branch: [master, development]
     commands:
       - yarn release
       - 'aws lambda update-function-code --function-name $AWS_LAMBDA_PRODUCTION_ARN --zip-file fileb://subway.zip'
-      - 'aws lambda publish-version --function-name $AWS_LAMBDA_PRODUCTION_ARN --description "SHA: $CIRCLE_SHA1 Github: $CIRCLE_COMPARE_URL Build Number: $CIRCLE_BUILD_NUM"'
-      - 'aws lambda update-function-configuration --function-name $AWS_LAMBDA_PRODUCTION_ARN --runtime "nodejs${NODE_RUNTIME_VERSION}" --environment "Variables={NODE_ENV=production}"'
       - 'aws lambda update-function-code --function-name $AWS_FB_LAMBDA_PRODUCTION_ARN --zip-file fileb://subway.zip'
-      - 'aws lambda publish-version --function-name $AWS_FB_LAMBDA_PRODUCTION_ARN --description "SHA: $CIRCLE_SHA1 Github: $CIRCLE_COMPARE_URL Build Number: $CIRCLE_BUILD_NUM"'
-      - 'aws lambda update-function-configuration --function-name $AWS_FB_LAMBDA_PRODUCTION_ARN --runtime "nodejs${NODE_RUNTIME_VERSION}" --environment "Variables={NODE_ENV=production}"'
-
-  development:
-    branch: development
-    commands:
-      - yarn release
-      - 'aws lambda update-function-code --function-name $AWS_LAMBDA_PRODUCTION_ARN --zip-file fileb://subway.zip'
-      - 'aws lambda publish-version --function-name $AWS_LAMBDA_PRODUCTION_ARN --description "SHA: $CIRCLE_SHA1 Github: $CIRCLE_COMPARE_URL Build Number: $CIRCLE_BUILD_NUM"'
-      - 'aws lambda update-function-configuration --function-name $AWS_LAMBDA_PRODUCTION_ARN --runtime "nodejs${NODE_RUNTIME_VERSION}" --environment "Variables={NODE_ENV=development}"'
-      - 'aws lambda update-function-code --function-name $AWS_FB_LAMBDA_PRODUCTION_ARN --zip-file fileb://subway.zip'
-      - 'aws lambda publish-version --function-name $AWS_FB_LAMBDA_PRODUCTION_ARN --description "SHA: $CIRCLE_SHA1 Github: $CIRCLE_COMPARE_URL Build Number: $CIRCLE_BUILD_NUM"'
-      - 'aws lambda update-function-configuration --function-name $AWS_FB_LAMBDA_PRODUCTION_ARN --runtime "nodejs${NODE_RUNTIME_VERSION}" --environment "Variables={NODE_ENV=development}"'
+      - 'aws lambda update-function-configuration --function-name $AWS_FB_LAMBDA_PRODUCTION_ARN --runtime "nodejs${NODE_RUNTIME_VERSION}" --environment "Variables={NODE_ENV=$TARGET_ENV,APPLICATION_ID=$ALEXA_FB_APPLICATION_ID,MTA_STATUS_URL=$MTA_STATUS_URL}"'
+      - 'aws lambda update-function-configuration --function-name $AWS_LAMBDA_PRODUCTION_ARN --runtime "nodejs${NODE_RUNTIME_VERSION}" --environment "Variables={NODE_ENV=$TARGET_ENV,APPLICATION_ID=$ALEXA_APPLICATION_ID,MTA_STATUS_URL=$MTA_STATUS_URL}"'
+      - 'aws lambda publish-version --function-name $AWS_LAMBDA_PRODUCTION_ARN --description "Branch: $CIRCLE_BRANCH SHA: $CIRCLE_SHA1 Github: $CIRCLE_COMPARE_URL Build Number: $CIRCLE_BUILD_NUM"'
+      - 'aws lambda publish-version --function-name $AWS_FB_LAMBDA_PRODUCTION_ARN --description "Branch: $CIRCLE_BRANCH SHA: $CIRCLE_SHA1 Github: $CIRCLE_COMPARE_URL Build Number: $CIRCLE_BUILD_NUM"'
