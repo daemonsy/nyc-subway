@@ -6,9 +6,9 @@ abbrev@1:
   version "1.0.9"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.0.9.tgz#91b4792588a7738c25f35dd6f63752a2f8776135"
 
-alexa-sdk@^1.0.6:
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/alexa-sdk/-/alexa-sdk-1.0.6.tgz#4d1a8c728de837fbb3bde53e1328d05b8c7ee73b"
+"alexa-sdk@git+https://github.com/daemonsy/alexa-skills-kit-sdk-for-nodejs":
+  version "1.0.10"
+  resolved "git+https://github.com/daemonsy/alexa-skills-kit-sdk-for-nodejs#779ddfa1d86bdb89e69b4d0bfd3e834ac7fc6f33"
   dependencies:
     aws-sdk "^2.4.7"
     i18next "^3.4.1"
