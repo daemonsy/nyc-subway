@@ -5,7 +5,9 @@
   "main": "index.js",
   "author": "Damon Aw <daemonsy@gmail.com>",
   "scripts": {
-    "release": "rm -f subway.zip && yarn --production && zip -r subway.zip . -x *.git*",
+    "dynamodb:download": "mkdir -p downloads && mkdir -p dynamodb_local && wget -N https://s3-us-west-2.amazonaws.com/dynamodb-local/dynamodb_local_latest.tar.gz -P ./downloads && tar -xvf ./downloads/dynamodb_local_latest.tar.gz -C ./dynamodb_local",
+    "dynamodb:start": "java -Djava.library.path=./dynamodb_local/DynamoDBLocal_lib -jar ./dynamodb_local/DynamoDBLocal.jar -sharedDb -inMemory",
+    "release": "rm -f subway.zip && yarn --production && zip -r subway.zip . -x '*.git*' -x 'tests/*' -x 'downloads/*' -x 'dynamodb_local/*'",
     "test": "NODE_ENV=test ava"
   },
   "ava": {

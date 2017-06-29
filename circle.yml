@@ -1,14 +1,4 @@
 machine:
-  pre:
-    - mkdir -p ~/downloads
-    - mkdir -p ~/dynamodb_local
-    - wget -N https://s3-us-west-2.amazonaws.com/dynamodb-local/dynamodb_local_latest.tar.gz -P ~/downloads
-
-  post:
-    - tar -xvf /home/ubuntu/downloads/dynamodb_local_latest.tar.gz -C ~/dynamodb_local
-    - 'cd dynamodb_local;java -Djava.library.path=./DynamoDBLocal_lib -jar DynamoDBLocal.jar -sharedDb':
-        background: true
-
   node:
     version: $NODE_RUNTIME_VERSION
   environment:
@@ -30,14 +20,18 @@ dependencies:
       else
         echo "The correct version of Yarn is already installed."
       fi
+    - yarn run dynamodb:download
+    - yarn run dynamodb:start:
+        background: true
 
   override:
     - yarn install
 
+
   cache_directories:
     - ~/.yarn
     - ~/.cache/yarn
-    - ~/downloads
+    - ~/nyc-subway/downloads
 
 test:
   override:

@@ -1,3 +1,6 @@
 node_modules
 subway.zip
 .env*
+.env
+downloads
+.vscode
