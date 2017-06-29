@@ -28,12 +28,10 @@ var fetchStatus = function(callback) {
 };
 
 const affectedServiceStatusesBuilder = (statuses) => {
-  let notGoodService = status => status.status !== 'GOOD SERVICE';
+  let withServiceIssues = status => status.status !== 'GOOD SERVICE';
 
-  let affectedServices = statuses
-    .filter(notGoodService)
-
-  return _(affectedServices)
+  return _(statuses)
+    .filter(withServiceIssues)
     .groupBy('status')
     .map((lines, status, collection) => {
       lines = lines.map(status => status.nameGroup);
