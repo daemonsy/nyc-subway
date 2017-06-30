@@ -4,3 +4,4 @@ subway.zip
 .env
 downloads
 .vscode
+dynamodb_local
