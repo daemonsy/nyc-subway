@@ -1,5 +1,5 @@
-var parseXML = require('xml2js').parseString;
-var serviceDetailsCleaner = require('./service-details-cleaner');
+const parseXML = require('xml2js').parseString;
+const serviceDetailsCleaner = require('./service-details-cleaner');
 
 module.exports = function(mtaStatusXML, callback) {
   parseXML(mtaStatusXML, { normalize: true, trim: true }, function(error, results) {

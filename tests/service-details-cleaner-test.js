@@ -2,7 +2,7 @@ import test from 'ava';
 import fs from 'fs';
 import { parseString } from 'xml2js'
 
-import { default as serviceDetailsCleaner } from '../service-details-cleaner.js';
+import { default as serviceDetailsCleaner } from '../parsers/service-details-cleaner.js';
 
 test('removes all linebreaks', t => {
   t.plan(1);
