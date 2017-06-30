@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import statusToSpeech  from '../services/status-to-speech.js';
+import statusToSpeech  from '../speech-helpers/status-to-speech.js';
 
 test('Given a service status, it builds the right speech"', t => {
   t.plan(4);

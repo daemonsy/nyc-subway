@@ -12,6 +12,7 @@
   },
   "ava": {
     "files": [
+      "tests/**/*-test.js",
       "tests/*-test.js"
     ],
     "timeout": "6000",
@@ -30,6 +31,7 @@
   "license": "MIT",
   "devDependencies": {
     "ava": "^0.17.0",
+    "dotenv": "^4.0.0",
     "fetch-mock": "^5.8.0",
     "lambda-tester": "^2.6.1"
   }

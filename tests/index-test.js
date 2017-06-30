@@ -1,24 +1,12 @@
 import fs from 'fs';
 import { spawn } from 'child_process';
+import dynamoDBClient from "./helpers/dynamo-db-client.js";
 
 import test from 'ava';
 import LambdaTester from 'lambda-tester';
 import fetchMock from 'fetch-mock';
 
 import { handler, flashBriefingHandler } from '../index.js';
-
-var dynamo;
-
-test.cb.before(t => {
-  dynamo = spawn('yarn run dynamodb:start', { shell: true, timeout: 3000 });
-  setTimeout(t.end, 3000);
-})
-
-test.cb.after.always(t => {
-  dynamo.on('exit', () => t.end());
-  setTimeout(t.end, 3000);
-  dynamo.kill('SIGINT');
-})
 
 test.serial('flashBriefingHandler', async t => {
   t.plan(3);

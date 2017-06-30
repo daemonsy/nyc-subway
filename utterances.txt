@@ -5,7 +5,10 @@ statusOfLine what is the status of {subwayLineOrGroup}
 fullStatusUpdate for a service update
 fullStatusUpdate for a full service update
 fullStatusUpdate for an update
-storeFavoriteLine to track the {subwayLineOrGroup}
+storeFavoriteLine to track the {subwayLineOrGroup} line
+storeFavoriteLine my favorite line is {subwayLineOrGroup}
+storeFavoriteLine to add {subwayLineOrGroup} to my favorite line
+
 removeFavoriteLine to forget the {subwayLineOrGroup}
 resetFavoriteLine to forget all my tracked lines
 checkFavoriteLines to check my favorite lines

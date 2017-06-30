@@ -10,12 +10,14 @@ const applicationId = process.env.APPLICATION_ID;
 const _ = require('lodash');
 const Alexa = require('alexa-sdk');
 
-const statusToSpeech = require('./services/status-to-speech.js');
+const statusToSpeech = require('./speech-helpers/status-to-speech.js');
 const fetchMTAStatus = require('./services/fetch-mta-status.js');
 const closestLineMatcher = require('./utilities/closest-line-matcher.js');
 
 // Handlers
 const storeFavoriteLineHandler = require('./handlers/store-favorite-line.js');
+
+if(env === 'test') { require('dotenv').config(); };
 
 const affectedServiceStatusesBuilder = (statuses) => {
   let withServiceIssues = status => status.status !== 'GOOD SERVICE';
