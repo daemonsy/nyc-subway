@@ -21,8 +21,6 @@ dependencies:
         echo "The correct version of Yarn is already installed."
       fi
     - yarn run dynamodb:download
-    - yarn run dynamodb:start:
-        background: true
 
   override:
     - yarn install
