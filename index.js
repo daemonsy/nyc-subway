@@ -7,10 +7,6 @@ var env = process.env.NODE_ENV || 'development';
 const logRequests = process.env.LOG_REQUESTS === 'true';
 const applicationId = process.env.APPLICATION_ID;
 
-if(env !== 'production') {
-  require('dotenv').load({ path: '.env.' + env });
-}
-
 const _ = require('lodash');
 const Alexa = require('alexa-sdk');
 
