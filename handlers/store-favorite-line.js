@@ -10,8 +10,7 @@ module.exports = function(alexa) {
 
   fetchMTAStatus(statuses => {
     let closestLine = closestLineMatcher(statuses, 'nameGroup', heardNameGroup);
-
-    this.attributes["trackedTrainLines"] = (this.attributes["trackedTrainLines"] || []).concat([closestLine]);
+    this.attributes["trackedTrainLines"] = (this.attributes["trackedTrainLines"] || []).concat([closestLine.nameGroup]);
 
     this.emit(':tell', `Your favorite line is ${literalize(closestLine.nameGroup)}`);
   });
