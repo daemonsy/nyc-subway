@@ -12,16 +12,18 @@ const Alexa = require('alexa-sdk');
 
 const statusToSpeech = require('./speech-helpers/status-to-speech.js');
 const fetchMTAStatus = require('./services/fetch-mta-status.js');
-const closestLineMatcher = require('./utilities/closest-line-matcher.js');
 
 // Handlers
 const storeFavoriteLineHandler = require('./handlers/store-favorite-line.js');
+const checkFavoriteLinesHandler = require('./handlers/check-favorite-lines.js');
+
+// Utilities
+const closestLineMatcher = require('./utilities/closest-line-matcher.js');
+const withServiceIssues = require('./utilities/with-service-issues.js');
 
 if(env === 'test') { require('dotenv').config(); };
 
 const affectedServiceStatusesBuilder = (statuses) => {
-  let withServiceIssues = status => status.status !== 'GOOD SERVICE';
-
   return _(statuses)
     .filter(withServiceIssues)
     .groupBy('status')
@@ -74,6 +76,7 @@ var handlers = {
 
   fullStatusUpdate: fullStatusUpdateHandler,
   storeFavoriteLine: storeFavoriteLineHandler,
+  checkFavoriteLines: checkFavoriteLinesHandler,
   Unhandled: fullStatusUpdateHandler,
 };
 
