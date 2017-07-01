@@ -12,6 +12,6 @@ module.exports = function(alexa) {
     let closestLine = closestLineMatcher(statuses, 'nameGroup', heardNameGroup);
     this.attributes["trackedTrainLines"] = (this.attributes["trackedTrainLines"] || []).concat([closestLine.nameGroup]);
 
-    this.emit(':tell', `Your favorite line is ${literalize(closestLine.nameGroup)}`);
+    this.emit(':tell', `Okay, I added ${literalize(closestLine.nameGroup)} trains to your watch list. <say-as interpret-as="interjection">bam!</say-as>`);
   });
 }
