@@ -38,13 +38,18 @@ test:
     - yarn test
 
 deployment:
-  master:
-    branch: [master, development]
-    commands:
+  development:
+    branch: development
+    commands: &default_deployment_commands
       - yarn release
       - 'aws lambda update-function-code --function-name $AWS_LAMBDA_PRODUCTION_ARN --zip-file fileb://subway.zip'
       - 'aws lambda update-function-code --function-name $AWS_FB_LAMBDA_PRODUCTION_ARN --zip-file fileb://subway.zip'
       - 'aws lambda update-function-configuration --function-name $AWS_FB_LAMBDA_PRODUCTION_ARN --runtime "nodejs${NODE_RUNTIME_VERSION}" --environment "Variables={NODE_ENV=$TARGET_ENV,APPLICATION_ID=$ALEXA_FB_APPLICATION_ID,MTA_STATUS_URL=$MTA_STATUS_URL}"'
       - 'aws lambda update-function-configuration --function-name $AWS_LAMBDA_PRODUCTION_ARN --runtime "nodejs${NODE_RUNTIME_VERSION}" --environment "Variables={NODE_ENV=$TARGET_ENV,APPLICATION_ID=$ALEXA_APPLICATION_ID,MTA_STATUS_URL=$MTA_STATUS_URL}"'
+
+  master:
+    branch: master
+    commands:
+      <<: *default_deployment_commands
       - 'aws lambda publish-version --function-name $AWS_LAMBDA_PRODUCTION_ARN --description "Branch: $CIRCLE_BRANCH SHA: $CIRCLE_SHA1 Github: $CIRCLE_COMPARE_URL Build Number: $CIRCLE_BUILD_NUM"'
       - 'aws lambda publish-version --function-name $AWS_FB_LAMBDA_PRODUCTION_ARN --description "Branch: $CIRCLE_BRANCH SHA: $CIRCLE_SHA1 Github: $CIRCLE_COMPARE_URL Build Number: $CIRCLE_BUILD_NUM"'
