@@ -16,6 +16,7 @@ const fetchMTAStatus = require('./services/fetch-mta-status.js');
 // Handlers
 const storeFavoriteLineHandler = require('./handlers/store-favorite-line.js');
 const checkFavoriteLinesHandler = require('./handlers/check-favorite-lines.js');
+const checkFavoriteLinesStatusHandler = require('./handlers/check-favorite-lines-status.js');
 
 // Utilities
 const closestLineMatcher = require('./utilities/closest-line-matcher.js');
@@ -77,6 +78,7 @@ var handlers = {
   fullStatusUpdate: fullStatusUpdateHandler,
   storeFavoriteLine: storeFavoriteLineHandler,
   checkFavoriteLines: checkFavoriteLinesHandler,
+  checkFavoriteLinesStatus: checkFavoriteLinesStatusHandler,
   Unhandled: fullStatusUpdateHandler,
 };
 
