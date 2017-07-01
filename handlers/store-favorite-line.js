@@ -10,7 +10,10 @@ module.exports = function(alexa) {
 
   fetchMTAStatus(statuses => {
     let closestLine = closestLineMatcher(statuses, 'nameGroup', heardNameGroup);
-    this.attributes["trackedTrainLines"] = (this.attributes["trackedTrainLines"] || []).concat([closestLine.nameGroup]);
+    let currentTrackedLines = new Set(this.attributes["trackedTrainLines"] || []);
+    currentTrackedLines.add(closestLine.nameGroup);
+
+    this.attributes["trackedTrainLines"] = Array.from(currentTrackedLines);
 
     this.emit(':tell', `Okay, I added ${literalize(closestLine.nameGroup)} trains to your watch list. <say-as interpret-as="interjection">bam!</say-as>`);
   });
