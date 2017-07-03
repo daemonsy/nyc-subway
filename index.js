@@ -79,6 +79,17 @@ var handlers = {
   storeFavoriteLine: storeFavoriteLineHandler,
   checkFavoriteLines: checkFavoriteLinesHandler,
   checkFavoriteLinesStatus: checkFavoriteLinesStatusHandler,
+
+  storeWorkLocation() {
+    console.log("In store work location handler");
+    console.log(this.event.request.dialogState);
+    if(this.event.request.dialogState !== 'COMPLETED') {
+      this.emit(':delegate');
+    } else {
+      console.log(this.event);
+    }
+  },
+
   Unhandled: fullStatusUpdateHandler,
 };
 
@@ -108,9 +119,7 @@ exports.flashBriefingHandler = (event, context, callback) => {
 };
 
 exports.handler = function(event, context, callback){
-  if(logRequests) {
-    console.log(event.request); // Log to Cloudwatch
-  }
+  console.log(event);
 
   var alexa = Alexa.handler(event, context);
   alexa.appId = applicationId;
