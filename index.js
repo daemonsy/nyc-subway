@@ -80,17 +80,18 @@ var handlers = {
   checkFavoriteLines: checkFavoriteLinesHandler,
   checkFavoriteLinesStatus: checkFavoriteLinesStatusHandler,
 
-  storeWorkLocation() {
-    console.log("In store work location handler");
-    console.log(this.event.request.dialogState);
-    if(this.event.request.dialogState !== 'COMPLETED') {
-      this.emit(':delegate');
+  storeCommute() {
+    if(this.event.request.dialogState === 'COMPLETED') {
+      let { subwayStation, subwayDirection, subwayLine } = this.events.request.intent.slots;
+      subwayStationVerifier()
+      this.emit(':tell', 'thank you');
     } else {
-      console.log(this.event);
+      console.log(JSON.stringify(this.event));
+      this.emit(':delegate');
     }
   },
 
-  Unhandled: fullStatusUpdateHandler,
+  Unhandled: fullStatusUpdateHandler
 };
 
 exports.flashBriefingHandler = (event, context, callback) => {
