@@ -1,0 +1,29 @@
+{
+  "session": {
+    "sessionId": "SessionId.fea02aa4-0e49-4f22-ab37-d818ee1c8f32",
+    "application": {
+      "applicationId": "amzn1.ask.skill.4fe3808f-fda4-4bfc-8e53-07b9f3b3baae"
+    },
+    "attributes": {},
+    "user": {
+      "userId": "amzn1.ask.account.AFAKUB5FUTW5AXKNQ7ZVBGQWW7EKCO2V5XIW447VAUBZM2YYKTKPXYNOSCR4DT2VDIBJ6SG2LSY3SESF56RGJNAF77EG547QF3TDYRLBFXJFPZC4SZ5PMWQRZ64B3Q22LYNN7R6COCX6WWALHWF6SHT234QXMD23SWTLZXKDAV4NILWHGRMDOJJQ2VQLO6RL4UTX6NCYQUH5PHY"
+    },
+    "new": true
+  },
+  "request": {
+    "type": "IntentRequest",
+    "requestId": "EdwRequestId.648ced7d-3e26-4372-9b4f-f89d23a24c6a",
+    "locale": "en-US",
+    "timestamp": "2017-06-30T02:46:44Z",
+    "intent": {
+      "name": "storeFavoriteLine",
+      "slots": {
+        "subwayLineOrGroup": {
+          "name": "subwayLineOrGroup",
+          "value": "ace"
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}

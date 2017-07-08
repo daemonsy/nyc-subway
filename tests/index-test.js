@@ -1,4 +1,6 @@
 import fs from 'fs';
+import { spawn } from 'child_process';
+import dynamoDBClient from "./helpers/dynamo-db-client.js";
 
 import test from 'ava';
 import LambdaTester from 'lambda-tester';
@@ -39,7 +41,7 @@ test.serial('handling "ask subway status to check on the <subway-line> line?" an
   fetchMock.restore();
 });
 
-test.serial('handling "ask subway status to check on the <subway-line> line?" and the service the service is good', async t => {
+test.serial('handling "ask subway status to check on the <subway-line> line?" and the service is good', async t => {
   t.plan(2);
 
   const statusOfLineEvent = JSON.parse(fs.readFileSync(process.cwd() + '/tests/fixtures/events/status-of-line.json'));
@@ -83,6 +85,7 @@ test.serial('handling "ask subway status for an update and there are bad service
     .expectSucceed(r => r);
 
   let speechMarkup = result.response.outputSpeech.ssml;
+
   t.true(speechMarkup.search("1-2-3, B-D-F-M, J-Z, N-Q-R") !== -1);
   t.true(speechMarkup.search('A-C-E') !== -1);
   t.true(speechMarkup.search('Good service on all other lines. ') !== -1);

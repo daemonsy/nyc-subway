@@ -5,3 +5,17 @@ statusOfLine what is the status of {subwayLineOrGroup}
 fullStatusUpdate for a service update
 fullStatusUpdate for a full service update
 fullStatusUpdate for an update
+storeFavoriteLine my favorite line is {subwayLineOrGroup}
+storeFavoriteLine to favorite the {subwayLineOrGroup} train
+storeFavoriteLine to watch the {subwayLineOrGroup} train
+checkFavoriteLines what is on my watchlist
+checkFavoriteLines what are my favorite trains
+checkFavoriteLinesStatus to check my commute
+checkFavoriteLinesStatus how is my commute
+
+
+removeFavoriteLine to forget the {subwayLineOrGroup}
+resetFavoriteLine to forget all my tracked lines
+checkFavoriteLines to check my favorite lines
+checkFavoriteLines what is the status of my favorite lines?
+checkFavoriteLines to check my commute

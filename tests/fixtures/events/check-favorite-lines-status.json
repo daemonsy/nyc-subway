@@ -1,0 +1,29 @@
+{
+  "session": {
+    "sessionId": "SessionId.530c26f5-0c12-49d7-84a0-ef08bbce41da",
+    "application": {
+      "applicationId": "amzn1.ask.skill.4fe3808f-fda4-4bfc-8e53-07b9f3b3baae"
+    },
+    "attributes": {
+      "trackedTrainLines": [
+        "ACE",
+        "NQR"
+      ]
+    },
+    "user": {
+      "userId": "amzn1.ask.account.AFAKUB5FUTW5AXKNQ7ZVBGQWW7EKCO2V5XIW447VAUBZM2YYKTKPXYNOSCR4DT2VDIBJ6SG2LSY3SESF56RGJNAF77EG547QF3TDYRLBFXJFPZC4SZ5PMWQRZ64B3Q22LYNN7R6COCX6WWALHWF6SHT234QXMD23SWTLZXKDAV4NILWHGRMDOJJQ2VQLO6RL4UTX6NCYQUH5PHY"
+    },
+    "new": true
+  },
+  "request": {
+    "type": "IntentRequest",
+    "requestId": "EdwRequestId.51403ae1-2358-4f5d-9df2-c11d417fb8a7",
+    "locale": "en-US",
+    "timestamp": "2017-07-01T18:21:35Z",
+    "intent": {
+      "name": "checkFavoriteLinesStatus",
+      "slots": {}
+    }
+  },
+  "version": "1.0"
+}

@@ -3,7 +3,7 @@
 
 [NYC Subway](http://alexa.amazon.com/spa/index.html#skills/dp/B01MR1N9YH) is an Alexa Custom Skill that gives you an update on subway statuses.
 
-![](nyc-subway-skill.png)
+![](assets/nyc-subway-skill.png)
 
 This repository contains code for the skill's lambda handler.
 

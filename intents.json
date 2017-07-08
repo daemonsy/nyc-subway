@@ -11,6 +11,21 @@
     {
       "intent": "fullStatusUpdate",
       "slots": []
+    },
+    {
+      "intent": "storeFavoriteLine",
+      "slots":[
+        {
+          "name": "subwayLineOrGroup",
+          "type": "SUBWAY_LINE_OR_GROUP"
+        }
+      ]
+    },
+    {
+      "intent": "checkFavoriteLines"
+    },
+    {
+      "intent": "checkFavoriteLinesStatus"
     }
   ]
 }
