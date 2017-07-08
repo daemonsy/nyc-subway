@@ -6,8 +6,7 @@ process.stdout.write(
     _(subwayStops)
       .map(stopData => stopData["stopName"])
       .uniq()
-      .map(stopName => {
-        return ({ id: null, name: { value: stopName, synonyms: [] }})
-      }).value()
+      .map(stopName => ({ id: null, name: { value: stopName, synonyms: [] }}))
+      .value()
   )
 );

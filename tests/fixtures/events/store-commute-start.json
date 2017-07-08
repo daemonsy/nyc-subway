@@ -1,0 +1,59 @@
+{
+    "version": "1.0",
+    "session": {
+        "new": true,
+        "sessionId": "amzn1.echo-api.session.02c67291-9e9a-4ca5-bef8-c19b642426c4",
+        "application": {
+            "applicationId": "amzn1.ask.skill.4fe3808f-fda4-4bfc-8e53-07b9f3b3baae"
+        },
+        "user": {
+            "userId": "amzn1.ask.account.AG7TBVHS7QUDLBU6N65BSUJMZZTQ6CFD4YFQELQRLXB3M4UV64MQ7RJ5CPWXYALQ3QJ665TJ7OIF3ZT4RMC5NQRPH5OWB4TMQTC46REKNEYDBLUN6OJ7OLXYHGEUOLZYRA3CQGGSLOSOFQTEVG4DNKVRN3NIVPK2YYUCAFJ64ODXBDNE5YNAXDX7GQATDLNGZR7G5KMDNTHZR2I"
+        },
+        "attributes": {}
+    },
+    "context": {
+        "AudioPlayer": {
+            "playerActivity": "STOPPED"
+        },
+        "System": {
+            "application": {
+                "applicationId": "amzn1.ask.skill.4fe3808f-fda4-4bfc-8e53-07b9f3b3baae"
+            },
+            "user": {
+                "userId": "amzn1.ask.account.AG7TBVHS7QUDLBU6N65BSUJMZZTQ6CFD4YFQELQRLXB3M4UV64MQ7RJ5CPWXYALQ3QJ665TJ7OIF3ZT4RMC5NQRPH5OWB4TMQTC46REKNEYDBLUN6OJ7OLXYHGEUOLZYRA3CQGGSLOSOFQTEVG4DNKVRN3NIVPK2YYUCAFJ64ODXBDNE5YNAXDX7GQATDLNGZR7G5KMDNTHZR2I"
+            },
+            "device": {
+                "deviceId": "amzn1.ask.device.AEGQ5USV2TVZTMTG7AXEFTAK5FA4GCTGJWPKJJYMWCFA3E4ADMSX6V7UYVNDBFNUVE2FFWHIZEUBFGWELKJLN243XVK7MURJXUD5O7HFHWAQNFDJAWPSELUAO3NX2RECP6QEZEICXGE2ULYJFUYGSWSNEFRA",
+                "supportedInterfaces": {
+                    "AudioPlayer": {}
+                }
+            },
+            "apiEndpoint": "https://api.amazonalexa.com"
+        }
+    },
+    "request": {
+        "type": "IntentRequest",
+        "requestId": "amzn1.echo-api.request.f6c656ec-0bc0-4fc6-bb89-91747b4718c7",
+        "timestamp": "2017-07-07T21:55:46Z",
+        "locale": "en-US",
+        "intent": {
+            "name": "storeCommute",
+            "confirmationStatus": "NONE",
+            "slots": {
+                "subwayStation": {
+                    "name": "subwayStation",
+                    "confirmationStatus": "NONE"
+                },
+                "subwayDirection": {
+                    "name": "subwayDirection",
+                    "confirmationStatus": "NONE"
+                },
+                "subwayLine": {
+                    "name": "subwayLine",
+                    "confirmationStatus": "NONE"
+                }
+            }
+        },
+        "dialogState": "STARTED"
+    }
+}

@@ -17,6 +17,7 @@ const fetchMTAStatus = require('./services/fetch-mta-status.js');
 const storeFavoriteLineHandler = require('./handlers/store-favorite-line.js');
 const checkFavoriteLinesHandler = require('./handlers/check-favorite-lines.js');
 const checkFavoriteLinesStatusHandler = require('./handlers/check-favorite-lines-status.js');
+const storeCommuteHandler = require('./handlers/store-commute.js');
 
 // Utilities
 const closestLineMatcher = require('./utilities/closest-line-matcher.js');
@@ -80,17 +81,7 @@ var handlers = {
   checkFavoriteLines: checkFavoriteLinesHandler,
   checkFavoriteLinesStatus: checkFavoriteLinesStatusHandler,
 
-  storeCommute() {
-    if(this.event.request.dialogState === 'COMPLETED') {
-      let { subwayStation, subwayDirection, subwayLine } = this.events.request.intent.slots;
-      subwayStationVerifier()
-      this.emit(':tell', 'thank you');
-    } else {
-      console.log(JSON.stringify(this.event));
-      this.emit(':delegate');
-    }
-  },
-
+  storeCommute: storeCommuteHandler,
   Unhandled: fullStatusUpdateHandler
 };
 
@@ -120,7 +111,7 @@ exports.flashBriefingHandler = (event, context, callback) => {
 };
 
 exports.handler = function(event, context, callback){
-  console.log(event);
+  if(logRequests) console.log(event);
 
   var alexa = Alexa.handler(event, context);
   alexa.appId = applicationId;

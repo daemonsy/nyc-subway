@@ -23,10 +23,10 @@ dependencies:
     - yarn run dynamodb:download
     - yarn run dynamodb:start:
         background: true
+    - sleep 10
 
   override:
     - yarn install
-
 
   cache_directories:
     - ~/.yarn
