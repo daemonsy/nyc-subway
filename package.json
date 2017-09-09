@@ -20,16 +20,16 @@
     "fast-levenshtein": "^2.0.6",
     "isomorphic-fetch": "^2.2.1",
     "lodash": "^4.17.4",
-    "pluralize": "^3.1.0",
+    "pluralize": "^7.0.0",
     "sanitize-html": "^1.13.0",
     "uuid": "^3.1.0",
     "xml2js": "^0.4.17"
   },
   "license": "MIT",
   "devDependencies": {
-    "ava": "^0.17.0",
-    "dotenv": "^2.0.0",
+    "ava": "^0.22.0",
+    "dotenv": "^4.0.0",
     "fetch-mock": "^5.8.0",
-    "lambda-tester": "^2.6.1"
+    "lambda-tester": "^3.0.2"
   }
 }
